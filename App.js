@@ -1,80 +1,114 @@
 import { StatusBar } from 'expo-status-bar';
-import calcF from "./functions"
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import { registerRootComponent } from 'expo';
 
-export default function App() {
+function App() {
+  const [prevRes, setPrevRes] = useState("");
   const [calcStr, setCalcStr] = useState("");
+  const [resStr, setResStr] = useState("");
 
-  const createBtn = (title, padding=[20, 30, 20, 30]) => {
+  const createBtn = (title, padding=[20,20,20,20], color= "#A1E0FF", disabled=false) => {
+    if (padding.length < 4) {
+      padding = [20,20,20,20]
+    }
     const onPress = () => {
       if (title == "=") {
-        console.log(eval(calcStr))
+        const evalRes = eval(calcStr)
+        setPrevRes(evalRes)
+        setResStr(evalRes)
         return
       } else if (title == "←") {
+        setPrevRes(resStr)
+        setResStr("")
         setCalcStr(calcStr.slice(0,-1))
         return
+      } else if (title == "×") {
+        setCalcStr(calcStr + "*")
+      } else if (title == "÷") {
+        setCalcStr(calcStr + "/")
+      } else if (title == "ANS") {
+        setCalcStr(calcStr + prevRes)
+      } else {
+        setCalcStr(calcStr + title);
       }
-      setCalcStr(calcStr + title);
+    }
+    const longPressDelete = () => {
+      if (title == "←") {
+        setPrevRes(resStr)
+        setResStr("")
+        setCalcStr("")
+      }
     }
   
     return (
       <View>
-        <TouchableOpacity style={styles.touchpadBtn} onPress={onPress}>
+        <Pressable style={{...styles.touchpadBtn, backgroundColor: color}} onPress={onPress} onLongPress={title == "←" ? longPressDelete : () => {}} disabled={disabled}>
           <Text 
             style={{...styles.touchpadText, paddingTop: padding[0], paddingLeft: padding[1], paddingRight: padding[3], paddingBottom: padding[2]}}
           >{title}</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     )
-  
   }
 
   return (
-    <View>
+    <View style={{ backgroundColor: "#CCD4D9" }}>
       <StatusBar style="auto" />
-      <View style={{ marginTop: "10%" }}>
-        <ScrollView styles={styles.resultCont}>
-          <Text style={{color: "#000000"}}>{calcStr}</Text>
+      <View style={{ marginTop: "10%", height: 100, marginLeft: "4%", marginRight: "4%" }}>
+        <ScrollView styles={styles.resultCont} persistentScrollbar={true}>
+          <Text style={{color: "#000000", fontSize: 20}}>{calcStr}</Text>
         </ScrollView>
+        
+        <View style={{ display: "flex", flexDirection: "row", alignItems: "baseline" }}>
+          <Text style={{fontSize: 30, color: "#1D5875"}}>= </Text>
+          <ScrollView styles={styles.resultCont}>
+            <Text style={{color: "#000000", fontSize: 25}}>{resStr}</Text>
+          </ScrollView>
+        </View>
+        
       </View>
       <View style={styles.touchpadCont}>
+        <View style={styles.touchpadRow}>
+          {createBtn("(", [20,22,20,22], "#3295C7")}
+          {createBtn(")", [20,22,20,22], "#3295C7")}
+          {createBtn("xⁿ", [20,17,20,17], "#565A5C", true)}
+          {createBtn("ANS", [20,6,20,6], "#3295C7")}
+        </View>
         <View style={styles.touchpadRow}>
           {createBtn("7")}
           {createBtn("8")}
           {createBtn("9")}
+          {createBtn("÷", [], "#3DB8F5")}
         </View>
 
         <View style={styles.touchpadRow}>
           {createBtn("4")}
           {createBtn("5")}
           {createBtn("6")}
+          {createBtn("×", [], "#3DB8F5")}
         </View>
 
         <View style={styles.touchpadRow}>
           {createBtn("1")}
           {createBtn("2")}
           {createBtn("3")}
+          {createBtn("+", [], "#3DB8F5")}
+          
         </View>
 
         <View style={styles.touchpadRow}>
-          {createBtn("=")}
           {createBtn("0")}
-          {createBtn("←") /* hold to clear, press to bckspace */}
+          {createBtn("←", [20,18,20,18], "#3295C7") /* hold to clear, press to bckspace */}
+          {createBtn("=", [], "#3295C7")}
+          {createBtn("-", [20,22,20,22], "#3DB8F5")}
         </View>
-
-        <View style={styles.touchpadRow}>
-          {createBtn("+", [20,20,20,20])}
-          {createBtn("-", [20,20,20,20])}
-          {createBtn("×", [20,20,20,20])}
-          {createBtn("÷", [20,20,20,20])}
-        </View>
-
-        
       </View>
     </View>
   );
 }
+
+export default registerRootComponent(App)
 
 const styles = StyleSheet.create({
   container: {
@@ -92,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    rowGap: "50",
+    rowGap: "20",
     width: "100%",
   },
   touchpadRow: {
@@ -101,7 +135,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 10,
     flexDirection: "row",
-    rowGap: "50",
     justifyContent: "space-around",
   },
   touchpadBtn: {
