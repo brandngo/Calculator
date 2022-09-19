@@ -1,22 +1,22 @@
 {
   "files": {
-    "app.js": "/Calculator/static/js/app.714d8117.chunk.js",
-    "app.js.map": "/Calculator/static/js/app.714d8117.chunk.js.map",
+    "app.js": "/Calculator/static/js/app.4654f07a.chunk.js",
+    "app.js.map": "/Calculator/static/js/app.4654f07a.chunk.js.map",
     "runtime~app.js": "/Calculator/static/js/runtime~app.51e533f7.js",
     "runtime~app.js.map": "/Calculator/static/js/runtime~app.51e533f7.js.map",
-    "static/js/2.347858c0.chunk.js": "/Calculator/static/js/2.347858c0.chunk.js",
-    "static/js/2.347858c0.chunk.js.map": "/Calculator/static/js/2.347858c0.chunk.js.map",
+    "static/js/2.c76f0c17.chunk.js": "/Calculator/static/js/2.c76f0c17.chunk.js",
+    "static/js/2.c76f0c17.chunk.js.map": "/Calculator/static/js/2.c76f0c17.chunk.js.map",
     "favicon-16.png": "/Calculator/favicon-16.png",
     "favicon-32.png": "/Calculator/favicon-32.png",
     "favicon.ico": "/Calculator/favicon.ico",
     "index.html": "/Calculator/index.html",
     "manifest.json": "/Calculator/manifest.json",
     "serve.json": "/Calculator/serve.json",
-    "static/js/2.347858c0.chunk.js.LICENSE.txt": "/Calculator/static/js/2.347858c0.chunk.js.LICENSE.txt"
+    "static/js/2.c76f0c17.chunk.js.LICENSE.txt": "/Calculator/static/js/2.c76f0c17.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.51e533f7.js",
-    "static/js/2.347858c0.chunk.js",
-    "static/js/app.714d8117.chunk.js"
+    "static/js/2.c76f0c17.chunk.js",
+    "static/js/app.4654f07a.chunk.js"
   ]
 }
