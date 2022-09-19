@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
-import { registerRootComponent } from 'expo';
+import { useWindowDimensions } from 'react-native-web';
 
-function App() {
+export default function App() {
+  const { height, width } = useWindowDimensions();
   const [prevRes, setPrevRes] = useState("");
   const [calcStr, setCalcStr] = useState("");
   const [resStr, setResStr] = useState("");
@@ -52,63 +53,78 @@ function App() {
     )
   }
 
+  const determineDimension = () => {
+    if (width >= 400) {
+      return {
+        width: "30%",
+        height: "100%"
+      }
+    } else {
+      return {
+        width: "100%",
+        height: "100%"
+      }
+    }
+
+  }
+
   return (
-    <View style={{ backgroundColor: "#CCD4D9" }}>
-      <StatusBar style="auto" />
-      <View style={{ marginTop: "10%", height: 100, marginLeft: "4%", marginRight: "4%" }}>
-        <ScrollView styles={styles.resultCont} persistentScrollbar={true}>
-          <Text style={{color: "#000000", fontSize: 20}}>{calcStr}</Text>
-        </ScrollView>
-        
-        <View style={{ display: "flex", flexDirection: "row", alignItems: "baseline" }}>
-          <Text style={{fontSize: 30, color: "#1D5875"}}>= </Text>
-          <ScrollView styles={styles.resultCont}>
-            <Text style={{color: "#000000", fontSize: 25}}>{resStr}</Text>
+    <View style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#CCD4D9", width: "100%", height: "100%" }}>
+      <View style={{ ...determineDimension() }}>
+        <StatusBar style="auto" />
+        <View style={{ marginTop: "10%", height: 100, marginLeft: "4%", marginRight: "4%" }}>
+          <ScrollView styles={styles.resultCont} persistentScrollbar={true}>
+            <Text style={{color: "#000000", fontSize: 20}}>{calcStr}</Text>
           </ScrollView>
-        </View>
-        
-      </View>
-      <View style={styles.touchpadCont}>
-        <View style={styles.touchpadRow}>
-          {createBtn("(", [20,22,20,22], "#3295C7")}
-          {createBtn(")", [20,22,20,22], "#3295C7")}
-          {createBtn("xⁿ", [20,17,20,17], "#565A5C", true)}
-          {createBtn("ANS", [20,6,20,6], "#3295C7")}
-        </View>
-        <View style={styles.touchpadRow}>
-          {createBtn("7")}
-          {createBtn("8")}
-          {createBtn("9")}
-          {createBtn("÷", [], "#3DB8F5")}
-        </View>
-
-        <View style={styles.touchpadRow}>
-          {createBtn("4")}
-          {createBtn("5")}
-          {createBtn("6")}
-          {createBtn("×", [], "#3DB8F5")}
-        </View>
-
-        <View style={styles.touchpadRow}>
-          {createBtn("1")}
-          {createBtn("2")}
-          {createBtn("3")}
-          {createBtn("+", [], "#3DB8F5")}
+          
+          <View style={{ display: "flex", flexDirection: "row", alignItems: "baseline" }}>
+            <Text style={{fontSize: 30, color: "#1D5875"}}>= </Text>
+            <ScrollView styles={styles.resultCont}>
+              <Text style={{color: "#000000", fontSize: 25}}>{resStr}</Text>
+            </ScrollView>
+          </View>
           
         </View>
+        <View style={styles.touchpadCont}>
+          <View style={styles.touchpadRow}>
+            {createBtn("(", [20,22,20,22], "#3295C7")}
+            {createBtn(")", [20,22,20,22], "#3295C7")}
+            {createBtn("xⁿ", [20,17,20,17], "#565A5C", true)}
+            {createBtn("ANS", [20,6,20,6], "#3295C7")}
+          </View>
+          <View style={styles.touchpadRow}>
+            {createBtn("7")}
+            {createBtn("8")}
+            {createBtn("9")}
+            {createBtn("÷", [], "#3DB8F5")}
+          </View>
 
-        <View style={styles.touchpadRow}>
-          {createBtn("0")}
-          {createBtn("←", [20,18,20,18], "#3295C7") /* hold to clear, press to bckspace */}
-          {createBtn("=", [], "#3295C7")}
-          {createBtn("-", [20,22,20,22], "#3DB8F5")}
+          <View style={styles.touchpadRow}>
+            {createBtn("4")}
+            {createBtn("5")}
+            {createBtn("6")}
+            {createBtn("×", [], "#3DB8F5")}
+          </View>
+
+          <View style={styles.touchpadRow}>
+            {createBtn("1")}
+            {createBtn("2")}
+            {createBtn("3")}
+            {createBtn("+", [], "#3DB8F5")}
+            
+          </View>
+
+          <View style={styles.touchpadRow}>
+            {createBtn("0")}
+            {createBtn("←", [20,18,20,18], "#3295C7") /* hold to clear, press to bckspace */}
+            {createBtn("=", [], "#3295C7")}
+            {createBtn("-", [20,22,20,22], "#3DB8F5")}
+          </View>
         </View>
       </View>
     </View>
   );
 }
-
-export default registerRootComponent(App)
 
 const styles = StyleSheet.create({
   container: {
@@ -119,21 +135,17 @@ const styles = StyleSheet.create({
   },
   resultCont: {
     height: "100%",
-    width: "20%",
   },
   touchpadCont: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    rowGap: "20",
-    width: "100%",
   },
   touchpadRow: {
     display: "flex",
     height: "15%",
-    width: "100%",
-    marginBottom: 10,
+    marginBottom: 20,
     flexDirection: "row",
     justifyContent: "space-around",
   },
